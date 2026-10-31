@@ -12,10 +12,10 @@ personalizada, consumiendo datos desde BigQuery y almacenando las predicciones e
 
 ```mermaid
 graph LR
-    A[BigQuery (entrada)] --> B[FastAPI en Cloud Run]
-    B --> C[Modelo incluido en la imagen]
-    C --> D[Predicción]
-    D --> E[BigQuery (salida)]
+    A[BigQuery] --> |Datos de entrada| B[FastAPI en Cloud Run]
+    B --> |Solicitud de predicción| C[Modelo incluido en la imagen]
+    C --> |Resultado de predicción| D[Predicción]
+    D --> |Predicciones almacenadas| E[BigQuery ]
 ```
 
 1. Los datos de entrada se obtienen desde BigQuery.
