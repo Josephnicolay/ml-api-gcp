@@ -1,0 +1,35 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: ${SERVICE_NAME}
+  labels:
+    cloud.googleapis.com/location: ${REGION}
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "0"
+        autoscaling.knative.dev/maxScale: "5"
+    spec:
+      serviceAccountName: ${SERVICE_ACCOUNT_EMAIL}
+      containers:
+        - image: ${IMAGE_URI}
+          ports:
+            - containerPort: 8080
+          env:
+            - name: PROJECT
+              value: datapath-joseph-nicolay-mlops
+            - name: DATASET
+              value: aprendizaje
+            - name: SOURCE_TABLE
+              value: xtest
+            - name: FEATURES_TABLE
+              value: selected_features
+            - name: PREDICTIONS_TABLE
+              value: predictions_house-price-api
+            - name: MODEL_PATH
+              value: /app/artifacts/linear_regression.joblib
+          resources:
+            limits:
+              cpu: "1"
+              memory: 512Mi
